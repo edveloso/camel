@@ -1,0 +1,6 @@
+/target/
+/.settings/
+.classpath
+.project
+entrada/.camel
+saida/.camel
