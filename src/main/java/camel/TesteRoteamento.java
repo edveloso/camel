@@ -1,5 +1,6 @@
 package camel;
 
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import org.apache.camel.CamelContext;
@@ -46,11 +47,15 @@ public class TesteRoteamento {
 //		
 //		context.addRoutes(rotaValidacao);
 		
-		//EXEMPLO 3
+//		//EXEMPLO 3
+//		CamelContext context = new DefaultCamelContext();
+//		context.addRoutes(new TrataErroXsd());
+//		
+		//EXEMPLO 4
 		CamelContext context = new DefaultCamelContext();
-		context.addRoutes(new TrataErroXsd());
+		context.addRoutes(new HttpToDB());
 		context.start();
-		Thread.sleep(_SEGUNDOS);
+		new Scanner(System.in).nextLine();
 		context.stop();
 
 	}
