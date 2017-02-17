@@ -11,6 +11,9 @@ import org.apache.camel.builder.RouteBuilder;
 //import org.apache.camel.builder.ErrorHandlerBuilder;
 //import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.util.jndi.JndiContext;
+
+import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 
 
 public class TesteRoteamento {
@@ -19,11 +22,24 @@ public class TesteRoteamento {
 
 	private static Logger log = Logger.getLogger(TesteRoteamento.class.getName());
 	
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws Exception {
 
-		CamelContext context = new DefaultCamelContext();
-		context.addRoutes(new HttpToDB());
+		MysqlConnectionPoolDataSource ds = new MysqlConnectionPoolDataSource();
+		ds.setDatabaseName("fj36_camel");
+		ds.setServerName("localhost");
+		ds.setPort(3306);
+		ds.setUser("root");
+		ds.setPassword("");
+		
+		JndiContext jndi = new JndiContext();
+		jndi.rebind("mysqlDataSource", ds);
+		
+		CamelContext context = new DefaultCamelContext(jndi);
+		context.addRoutes(new HttpToMysql());
 		context.start();
+		
+		
 		new Scanner(System.in).nextLine();
 		context.stop();
 
@@ -76,6 +92,16 @@ public class TesteRoteamento {
 		context.start();
 		Thread.sleep(_SEGUNDOS);
 		context.stop();
+	}
+	
+	public void exemplo4()throws Exception{
+		
+		CamelContext context = new DefaultCamelContext();
+		context.addRoutes(new HttpToMock());
+		context.start();
+		new Scanner(System.in).nextLine();
+		context.stop();
+		
 	}
 
 }

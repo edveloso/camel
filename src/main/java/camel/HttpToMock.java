@@ -2,7 +2,7 @@ package camel;
 
 import org.apache.camel.builder.RouteBuilder;
 
-public class HttpToDB extends RouteBuilder {
+public class HttpToMock extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
@@ -11,7 +11,7 @@ public class HttpToDB extends RouteBuilder {
 		  .delay(1000)
 		  .unmarshal()
 		  .json() 
-		  .process(new ProcessadorBean())
+		  .process(new PoolingServicoLivrosProcessorBean())
 		  .log("${body}")
 		  .to("mock:livros");
 		
