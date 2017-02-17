@@ -13,7 +13,7 @@ public class HttpToMysql extends RouteBuilder {
 			  .unmarshal()
 			  .json() 
 			  .process(new PoolingServicoLivrosProcessorBean())
-//			  .log("${body}")
+			  .log("${body}")
 	    .to("direct:livros");
 		
 		from("direct:livros")
